@@ -4,6 +4,7 @@
  */
 package com.salocod;
 
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 /**
@@ -52,7 +53,7 @@ public class JogoDaVelha extends javax.swing.JFrame {
         bt7 = new javax.swing.JButton();
         bt8 = new javax.swing.JButton();
         bt9 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+        lbText = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -243,8 +244,8 @@ public class JogoDaVelha extends javax.swing.JFrame {
                 .addGap(96, 96, 96))
         );
 
-        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel3.setText("Vez do jogador 1");
+        lbText.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        lbText.setText("Vez do jogador 1");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -263,7 +264,7 @@ public class JogoDaVelha extends javax.swing.JFrame {
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(25, 25, 25))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lbText, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(181, 181, 181))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -274,7 +275,7 @@ public class JogoDaVelha extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                .addComponent(lbText)
                 .addGap(36, 36, 36)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(115, Short.MAX_VALUE))
@@ -301,6 +302,7 @@ public class JogoDaVelha extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
    private void verificaVitoria() {
+    boolean entrar = false;
        if((tabelaJogo[0][0] == 1 && tabelaJogo[0][1] == 1 && tabelaJogo[0][2] == 1) || 
           (tabelaJogo[1][0] == 1 && tabelaJogo[1][1] == 1 && tabelaJogo[1][2] == 1) ||
           (tabelaJogo[2][0] == 1 && tabelaJogo[2][1] == 1 && tabelaJogo[2][2] == 1) ||
@@ -317,112 +319,65 @@ public class JogoDaVelha extends javax.swing.JFrame {
           (tabelaJogo[0][2] == 2 && tabelaJogo[1][2] == 2 && tabelaJogo[2][2] == 2) ||
           (tabelaJogo[0][0] == 2 && tabelaJogo[1][1] == 2 && tabelaJogo[2][2] == 2) ||
           (tabelaJogo[0][2] == 2 && tabelaJogo[1][1] == 2 && tabelaJogo[2][0] == 2)) {
-              JOptionPane.showMessageDialog(null,(vezJogador) ? "Jogador 1 venceu!":"Jogador 2 venceu!",null ,JOptionPane.OK_OPTION);
-              System.exit(0);
+              JOptionPane.showMessageDialog(null,(vezJogador) ? "Jogador 2 venceu!":"Jogador 1 venceu!",null ,JOptionPane.OK_OPTION);
+                entrar = true;
        }
-   }
-    
-    private void printaMatriz() {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < 3; i++) {
-            if(i!=0) sb.append(System.lineSeparator());
-            for (int j = 0; j < 3; j++) {
-                sb.append(tabelaJogo[i][j]).append(" ");
-            }
-        }
-        System.out.println(sb.append(System.lineSeparator()).toString());
+           if((tabelaJogo[0][0] != 0 && tabelaJogo[0][1] != 0 && tabelaJogo[0][2] != 0 &&
+    tabelaJogo[1][0] != 0 && tabelaJogo[1][1] != 0 && tabelaJogo[1][2] != 0 &&
+    tabelaJogo[2][0] != 0 && tabelaJogo[2][1] != 0 && tabelaJogo[2][2] != 0) && entrar == false) {
+        JOptionPane.showMessageDialog(null, "Deu velha!", null, JOptionPane.OK_OPTION);
+        entrar = true;
     }
-    
-    
+       if(entrar) System.exit(0);
+   }
+
+    private void handleButtonClick(int row, int col, JButton button) {
+        if (tabelaJogo[row][col] == 0) {
+            tabelaJogo[row][col] = vezJogador ? 1 : 2;
+            button.setText(vezJogador ? "X" : "O");
+            vezJogador = !vezJogador;
+            jogadas++;
+            button.setEnabled(false);
+            verificaVitoria();
+            lbText.setText(vezJogador ? "Vez do jogador 1" : "Vez do jogador 2");
+        }
+    }
+
     private void bt1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt1ActionPerformed
-        bt1.setText((vezJogador) ? "X" : "O");
-        tabelaJogo[0][0] =  (vezJogador) ? 1 : 2;
-        vezJogador = !vezJogador;
-        jogadas++;
-        printaMatriz();
-        bt1.setEnabled(false);
-        verificaVitoria();
+        handleButtonClick(0, 0, bt1);        
         
     }//GEN-LAST:event_bt1ActionPerformed
 
     private void bt2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt2ActionPerformed
-        bt2.setText((vezJogador) ? "X" : "O");
-        tabelaJogo[0][1] =  (vezJogador) ? 1 : 2;
-        vezJogador = !vezJogador;
-        jogadas++;
-        printaMatriz();
-        bt2.setEnabled(false);
-        verificaVitoria();
+        handleButtonClick(0, 0, bt2);        
     }//GEN-LAST:event_bt2ActionPerformed
 
     private void bt3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt3ActionPerformed
-        bt3.setText((vezJogador) ? "X" : "O");
-        tabelaJogo[0][2] =  (vezJogador) ? 1 : 2;
-        vezJogador = !vezJogador;
-        jogadas++;
-        printaMatriz();
-        bt3.setEnabled(false);
-        verificaVitoria();
+        handleButtonClick(0, 0, bt3);    
     }//GEN-LAST:event_bt3ActionPerformed
 
     private void bt4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt4ActionPerformed
-        bt4.setText((vezJogador) ? "X" : "O");
-        tabelaJogo[1][0] =  (vezJogador) ? 1 : 2;
-        vezJogador = !vezJogador;
-        jogadas++;
-        printaMatriz();
-        bt4.setEnabled(false);
-        verificaVitoria();
+        handleButtonClick(0, 0, bt4);       
     }//GEN-LAST:event_bt4ActionPerformed
 
     private void bt5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt5ActionPerformed
-        bt5.setText((vezJogador) ? "X" : "O");
-        tabelaJogo[1][1] =  (vezJogador) ? 1 : 2;
-        vezJogador = !vezJogador;
-        jogadas++;
-        printaMatriz();
-        bt5.setEnabled(false);
-        verificaVitoria();
+        handleButtonClick(0, 0, bt5);   
     }//GEN-LAST:event_bt5ActionPerformed
 
     private void bt6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt6ActionPerformed
-        bt6.setText((vezJogador) ? "X" : "O");
-        tabelaJogo[1][2] =  (vezJogador) ? 1 : 2;
-        vezJogador = !vezJogador;
-        jogadas++;
-        printaMatriz();
-        bt6.setEnabled(false);
-        verificaVitoria();
+        handleButtonClick(0, 0, bt6);       
     }//GEN-LAST:event_bt6ActionPerformed
 
     private void bt7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt7ActionPerformed
-        bt7.setText((vezJogador) ? "X" : "O");
-        tabelaJogo[2][0] =  (vezJogador) ? 1 : 2;
-        vezJogador = !vezJogador;
-        jogadas++;
-        printaMatriz();
-        bt7.setEnabled(false);
-        verificaVitoria();
+        handleButtonClick(0, 0, bt7);    
     }//GEN-LAST:event_bt7ActionPerformed
 
     private void bt8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt8ActionPerformed
-        bt8.setText((vezJogador) ? "X" : "O");
-        tabelaJogo[2][1] =  (vezJogador) ? 1 : 2;
-        vezJogador = !vezJogador;
-        jogadas++;
-        printaMatriz();
-        bt8.setEnabled(false);
-        verificaVitoria();
+        handleButtonClick(0, 0, bt8);    
     }//GEN-LAST:event_bt8ActionPerformed
 
     private void bt9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt9ActionPerformed
-        bt9.setText((vezJogador) ? "X" : "O");
-        tabelaJogo[2][2] =  (vezJogador) ? 1 : 2;
-        vezJogador = !vezJogador;
-        jogadas++;
-        printaMatriz();
-        bt9.setEnabled(false);
-        verificaVitoria();
+        handleButtonClick(0, 0, bt9);      
     }//GEN-LAST:event_bt9ActionPerformed
 
     
@@ -471,7 +426,7 @@ public class JogoDaVelha extends javax.swing.JFrame {
     private javax.swing.JButton bt9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel lbText;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
