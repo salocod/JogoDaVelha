@@ -319,7 +319,7 @@ public class JogoDaVelha extends javax.swing.JFrame {
         jogadas = 0;
         comecou = !comecou;
         vezJogador = comecou;
-        lbText.setText(vezJogador ? "Vez do jogador 2" : "Vez do jogador 1");
+        lbText.setText(vezJogador ? "Vez do jogador 1" : "Vez do jogador 2");
         lbPontuacao.setText(vitJogUm + " x " + vitJogDois);
     }
 
